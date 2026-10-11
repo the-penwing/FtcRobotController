@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients
 
 // Launcher velocities in encoder ticks per second (28 ticks per rev)
 const val LAUNCHER_TARGET_VELOCITY: Double = 1250.0
-const val LAUNCHER_MIN_VELOCITY: Double = 50.0
+const val LAUNCHER_MIN_VELOCITY: Double = 1200.0 /* TODO: Tune on robot */
 
 @TeleOp(
   name = "BioBuzz StarterBot Teleop Kotlin",
@@ -107,5 +107,63 @@ class BioBuzzStarterbotTeleopKotlin : OpMode() {
   }
 
   override fun loop() {
+    // Left stick forward/back, right stick turn
+    arcadeDrive(
+      -gamepad1.left_stick_y.toDouble(),
+      gamepad1.right_stick_x.toDouble()
+    )
+
+    // Right trigger in, left trigger out
+    intakePower = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
+
+    // launch() may add to intakePower, so it runs before the intake is set
+    launch()
+
+    intake.power = intakePower
+    leftIntakeServo.power = intakePower
+    rightIntakeServo.power = intakePower
+
+    telemetry.addData(
+      "Motors",
+      "left (%.2f), right (%.2f)",
+      leftPower,
+      rightPower
+    )
+    telemetry.addData(
+      "launcher velocity",
+      launcher.velocity
+    )
+    telemetry.addLine()
+  }
+
+  override fun stop() {
+  }
+
+  fun arcadeDrive(
+    forward: Double,
+    rotate: Double
+  ) {
+    leftPower = forward + rotate
+    rightPower = forward - rotate
+
+    leftDrive.power = leftPower
+    rightDrive.power = rightPower
+  }
+
+  fun launch() {
+    // Right bumper held: spin up the launcher, otherwise spin down
+    if (gamepad1.right_bumper) {
+      launcher.velocity = LAUNCHER_TARGET_VELOCITY
+    } else {
+      launcher.velocity = 0.0
+    }
+
+    // Feed only while the bumper is held and the launcher is fast enough.
+    if (gamepad1.right_bumper && launcher.velocity > LAUNCHER_MIN_VELOCITY) {
+      windmillServo.power = 1.0
+      intakePower += 0.5 // extra intake power can free stuck elements
+    } else {
+      windmillServo.power = 0.0
+    }
   }
 }
