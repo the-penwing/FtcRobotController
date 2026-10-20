@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode
 
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
@@ -15,10 +14,10 @@ const val LAUNCHER_TARGET_VELOCITY: Double = 1250.0
 const val LAUNCHER_MIN_VELOCITY: Double = 1200.0 /* TODO: Tune on robot */
 
 @TeleOp(
-  name = "BioBuzz StarterBot Teleop Kotlin",
-  group = "StarterBot"
+  name = "StarterBot Kotlin Teleop",
+  group = "StarterBot Kotlin"
 )
-class BioBuzzStarterbotTeleopKotlin : OpMode() {
+class StarterBotKotlinTeleop : OpMode() {
   // Hardware
   lateinit var leftDrive: DcMotor
   lateinit var rightDrive: DcMotor
