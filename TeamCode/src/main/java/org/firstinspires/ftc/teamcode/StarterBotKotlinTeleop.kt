@@ -8,10 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
+import kotlin.math.abs
 
 // Launcher velocities in encoder ticks per second (28 ticks per rev)
 const val LAUNCHER_TARGET_VELOCITY: Double = 1250.0
-const val LAUNCHER_MIN_VELOCITY: Double = 1200.0 /* TODO: Tune on robot */
+const val LAUNCHER_MIN_VELOCITY: Double = LAUNCHER_TARGET_VELOCITY * 0.85 /* TODO: Tune on robot */
 
 @TeleOp(
   name = "StarterBot Kotlin Teleop",
@@ -158,7 +159,7 @@ class StarterBotKotlinTeleop : OpMode() {
     }
 
     // Feed only while the bumper is held and the launcher is fast enough.
-    if (gamepad1.right_bumper && launcher.velocity > LAUNCHER_MIN_VELOCITY) {
+    if (gamepad1.right_bumper && abs(launcher.velocity) > LAUNCHER_MIN_VELOCITY) {
       windmillServo.power = 1.0
       intakePower += 0.5 // extra intake power can free stuck elements
     } else {
