@@ -10,11 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import kotlin.math.abs
 
-// Launcher velocities in encoder ticks per second (28 ticks per rev)
-const val LAUNCHER_TARGET_VELOCITY: Double = 1250.0
-const val LAUNCHER_MIN_VELOCITY: Double =
-  LAUNCHER_TARGET_VELOCITY * 0.85 /* TODO: Tune on robot */
-
 @TeleOp(
   name = "StarterBot Kotlin Teleop",
   group = "StarterBot Kotlin"
@@ -148,13 +143,13 @@ class StarterBotKotlinTeleop : LinearOpMode() {
   fun launch() {
     // Right bumper held: spin up the launcher, otherwise spin down
     if (gamepad1.right_bumper) {
-      launcher.velocity = LAUNCHER_TARGET_VELOCITY
+      launcher.velocity = RobotConfig.LAUNCHER_TARGET_VELOCITY
     } else {
       launcher.velocity = 0.0
     }
 
     // Feed only while the bumper is held and the launcher is fast enough.
-    if (gamepad1.right_bumper && abs(launcher.velocity) > LAUNCHER_MIN_VELOCITY) {
+    if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.LAUNCHER_MIN_VELOCITY) {
       windmillServo.power = 1.0
       intakePower += 0.5 // extra intake power can free stuck elements
     } else {
