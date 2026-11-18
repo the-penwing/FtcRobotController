@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
@@ -12,13 +12,14 @@ import kotlin.math.abs
 
 // Launcher velocities in encoder ticks per second (28 ticks per rev)
 const val LAUNCHER_TARGET_VELOCITY: Double = 1250.0
-const val LAUNCHER_MIN_VELOCITY: Double = LAUNCHER_TARGET_VELOCITY * 0.85 /* TODO: Tune on robot */
+const val LAUNCHER_MIN_VELOCITY: Double =
+  LAUNCHER_TARGET_VELOCITY * 0.85 /* TODO: Tune on robot */
 
 @TeleOp(
   name = "StarterBot Kotlin Teleop",
   group = "StarterBot Kotlin"
 )
-class StarterBotKotlinTeleop : OpMode() {
+class StarterBotKotlinTeleop : LinearOpMode() {
   // Hardware
   lateinit var leftDrive: DcMotor
   lateinit var rightDrive: DcMotor
@@ -33,7 +34,7 @@ class StarterBotKotlinTeleop : OpMode() {
   var rightPower: Double = 0.0
   var intakePower: Double = 0.0
 
-  override fun init() {
+  override fun runOpMode() {
     // Names must match the robot configuration on the Driver Station
     leftDrive = hardwareMap.get(
       DcMotor::class.java,
@@ -98,45 +99,39 @@ class StarterBotKotlinTeleop : OpMode() {
       "Status",
       "Initialised"
     )
-  }
+    telemetry.update()
+    waitForStart()
 
-  override fun init_loop() {
-  }
+    while (opModeIsActive()) {
+      // Left stick forward/back, right stick turn
+      arcadeDrive(
+        -gamepad1.left_stick_y.toDouble(),
+        gamepad1.right_stick_x.toDouble()
+      )
 
-  override fun start() {
-  }
+      // Right trigger in, left trigger out
+      intakePower = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
 
-  override fun loop() {
-    // Left stick forward/back, right stick turn
-    arcadeDrive(
-      -gamepad1.left_stick_y.toDouble(),
-      gamepad1.right_stick_x.toDouble()
-    )
+      // launch() may add to intakePower, so it runs before the intake is set
+      launch()
 
-    // Right trigger in, left trigger out
-    intakePower = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
+      intake.power = intakePower
+      leftIntakeServo.power = intakePower
+      rightIntakeServo.power = intakePower
 
-    // launch() may add to intakePower, so it runs before the intake is set
-    launch()
-
-    intake.power = intakePower
-    leftIntakeServo.power = intakePower
-    rightIntakeServo.power = intakePower
-
-    telemetry.addData(
-      "Motors",
-      "left (%.2f), right (%.2f)",
-      leftPower,
-      rightPower
-    )
-    telemetry.addData(
-      "launcher velocity",
-      launcher.velocity
-    )
-    telemetry.addLine()
-  }
-
-  override fun stop() {
+      telemetry.addData(
+        "Motors",
+        "left (%.2f), right (%.2f)",
+        leftPower,
+        rightPower
+      )
+      telemetry.addData(
+        "launcher velocity",
+        launcher.velocity
+      )
+      telemetry.addLine()
+      telemetry.update()
+    }
   }
 
   fun arcadeDrive(
