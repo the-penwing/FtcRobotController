@@ -27,9 +27,18 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
 
   override fun runOpMode() {
     initHardware()
+    telemetry.addData(
+      "Status",
+      "Initialised"
+    )
+    telemetry.update()
     waitForStart()
 
     while (opModeIsActive()) {
+      telemetry.addData(
+        "Launcher Velocity",
+        launcher.velocity
+      )
       telemetry.update()
     }
   }
