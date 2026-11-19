@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 
 object RobotConfig {
+  object Controls {
+    const val DEADZONE: Double = 0.05
+  }
+
   object Launcher {
     const val LAUNCHER: String = "launcher"
     const val WINDMILL_SERVO: String = "windmill"

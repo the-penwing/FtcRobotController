@@ -39,6 +39,10 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
         "Launcher Velocity",
         launcher.velocity
       )
+      arcadeDrive(
+        -deadzone(gamepad1.left_stick_y.toDouble()),
+        deadzone(gamepad1.right_stick_x.toDouble())
+      )
       telemetry.update()
     }
   }
@@ -75,5 +79,13 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
     )
     windmillServo.direction = RobotConfig.Launcher.WINDMILL_DIRECTION
     windmillServo.power = 0.0
+  }
+
+  fun arcadeDrive(
+    forward: Double,
+    rotate: Double
+  ) {
+    leftDrive.power = forward + rotate
+    rightDrive.power = forward - rotate
   }
 }
