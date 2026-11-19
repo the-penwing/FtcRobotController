@@ -18,8 +18,6 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
 
   // Intake Devices
   lateinit var intake: DcMotor
-  lateinit var leftIntakeServo: CRServo
-  lateinit var rightIntakeServo: CRServo
 
   // Launcher Devices
   lateinit var launcher: DcMotorEx
@@ -57,13 +55,8 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
     leftDrive.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
     // Intake Setup
     intake = hardwareMap.device(RobotConfig.Intake.INTAKE)
-    leftIntakeServo = hardwareMap.device(RobotConfig.Intake.LEFT_SERVO)
-    rightIntakeServo = hardwareMap.device(RobotConfig.Intake.RIGHT_SERVO)
     intake.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-    leftIntakeServo.direction = RobotConfig.Intake.LEFT_SERVO_DIRECTION
-    rightIntakeServo.direction = RobotConfig.Intake.RIGHT_SERVO_DIRECTION
-    leftIntakeServo.power = 0.0
-    rightIntakeServo.power = 0.0
+
     // Launcher Setup
     launcher = hardwareMap.device(RobotConfig.Launcher.LAUNCHER)
     windmillServo = hardwareMap.device(RobotConfig.Launcher.WINDMILL_SERVO)
