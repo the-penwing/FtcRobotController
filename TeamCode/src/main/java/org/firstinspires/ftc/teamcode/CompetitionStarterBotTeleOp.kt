@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
+import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 
 @TeleOp(
@@ -41,6 +42,7 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
         -deadzone(gamepad1.left_stick_y.toDouble()),
         deadzone(gamepad1.right_stick_x.toDouble())
       )
+      updateIntake()
       telemetry.update()
     }
   }
@@ -80,5 +82,10 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
   ) {
     leftDrive.power = forward + rotate
     rightDrive.power = forward - rotate
+  }
+
+  fun updateIntake() {
+    // Right trigger in | Left trigger out
+    intake.power = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
   }
 }
