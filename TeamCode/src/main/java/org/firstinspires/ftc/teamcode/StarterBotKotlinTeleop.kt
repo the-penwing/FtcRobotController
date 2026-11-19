@@ -143,13 +143,13 @@ class StarterBotKotlinTeleop : LinearOpMode() {
   fun launch() {
     // Right bumper held: spin up the launcher, otherwise spin down
     if (gamepad1.right_bumper) {
-      launcher.velocity = RobotConfig.LAUNCHER_TARGET_VELOCITY
+      launcher.velocity = RobotConfig.Launcher.TARGET_VELOCITY
     } else {
       launcher.velocity = 0.0
     }
 
     // Feed only while the bumper is held and the launcher is fast enough.
-    if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.LAUNCHER_MIN_VELOCITY) {
+    if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.Launcher.MIN_VELOCITY) {
       windmillServo.power = 1.0
       intakePower += 0.5 // extra intake power can free stuck elements
     } else {
