@@ -11,7 +11,7 @@ object RobotConfig {
     const val LAUNCHER: String = "launcher"
     const val WINDMILL_SERVO: String = "windmill"
     val WINDMILL_DIRECTION: DcMotorSimple.Direction =
-      DcMotorSimple.Direction.FORWARD
+      DcMotorSimple.Direction.REVERSE
 
     const val PROPORTIONAL: Double = 40.0
     const val INTEGRAL: Double = 0.0
@@ -55,7 +55,7 @@ object RobotConfig {
   object Wedge {
     const val WEDGE: String = "wedge"
     const val WEDGE_UP: Double = 1.0
-    const val WEDGE_DOWN: Double = 0.7
+    const val WEDGE_DOWN: Double = 0.65
   }
 
   object Auto {
@@ -65,9 +65,9 @@ object RobotConfig {
     const val SETTLE_MS: Long = 150
 
     const val FIRST_LEG_SECONDS: Double = 1.0
-    const val FIRST_TURN_SECONDS: Double = 0.5
+    const val FIRST_TURN_SECONDS: Double = 0.86
     const val DIAGONAL_LEG_SECONDS: Double = 1.4
-    const val SECOND_TURN_SECONDS: Double = 0.5
+    const val SECOND_TURN_SECONDS: Double = 0.86
     const val FINAL_LEG_SECONDS: Double = 0.9
   }
 }
