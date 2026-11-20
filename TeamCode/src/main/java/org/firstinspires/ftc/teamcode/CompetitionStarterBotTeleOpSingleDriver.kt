@@ -10,10 +10,10 @@ import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.abs
 
 @TeleOp(
-  name = "Competition Starter Bot TeleOp",
+  name = "Competition Starter Bot TeleOp Single Driver",
   group = "StarterBot Kotlin"
 )
-class CompetitionStarterBotTeleOp : LinearOpMode() {
+class CompetitionStarterBotTeleOpSingleDriver : LinearOpMode() {
   // Drive Devices
   lateinit var leftDrive: DcMotor
   lateinit var rightDrive: DcMotor
