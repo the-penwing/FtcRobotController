@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import kotlin.math.abs
+import com.qualcomm.robotcore.util.ElapsedTime
+import kotlin.math.hypot
 
 @TeleOp(
   name = "StarterBot Kotlin Teleop",

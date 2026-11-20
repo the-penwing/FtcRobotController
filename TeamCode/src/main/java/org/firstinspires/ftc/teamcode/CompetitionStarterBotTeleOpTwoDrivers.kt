@@ -8,6 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 )
 class CompetitionStarterBotTeleOpTwoDrivers : StarterBotBase() {
   override fun handleControls() {
+    if (gamepad1.y) {
+      runMacro()
+      return
+    }
+
     arcadeDrive(
       -deadzone(gamepad1.left_stick_y.toDouble()),
       deadzone(gamepad1.right_stick_x.toDouble())

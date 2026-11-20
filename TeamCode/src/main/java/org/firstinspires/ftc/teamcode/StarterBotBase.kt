@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.abs
+import com.qualcomm.robotcore.util.ElapsedTime
 
 abstract class StarterBotBase : LinearOpMode() {
   // Drive Devices
@@ -137,5 +138,52 @@ abstract class StarterBotBase : LinearOpMode() {
         false
       }
     return feeding
+  }
+
+  private fun runFor(
+    leftPower: Double,
+    rightPower: Double,
+    seconds: Double
+  ): Boolean {
+    val timer: ElapsedTime = ElapsedTime()
+    leftDrive.power = leftPower
+    rightDrive.power = rightPower
+    while (opModeIsActive() && !gamepad1.b && timer.seconds() < seconds) {
+      telemetry.addData(
+        "Macro",
+        "Running (B to cancel)"
+      )
+      telemetry.update()
+    }
+    leftDrive.power = RobotConfig.Auto.STOP_POWER
+    rightDrive.power = RobotConfig.Auto.STOP_POWER
+    sleep(RobotConfig.Auto.SETTLE_MS)
+    return opModeIsActive() && !gamepad1.b
+  }
+
+  private fun driveForward(seconds: Double): Boolean = runFor(
+    RobotConfig.Auto.DRIVE_POWER,
+    RobotConfig.Auto.DRIVE_POWER,
+    seconds
+  )
+
+  private fun turnLeft(seconds: Double): Boolean = runFor(
+    -RobotConfig.Auto.TURN_POWER,
+    RobotConfig.Auto.TURN_POWER,
+    seconds
+  )
+
+  private fun turnRight(seconds: Double): Boolean = runFor(
+    RobotConfig.Auto.TURN_POWER,
+    -RobotConfig.Auto.TURN_POWER,
+    seconds
+  )
+
+  fun runMacro() {
+    driveForward(RobotConfig.Auto.FIRST_LEG_SECONDS) &&
+            turnLeft(RobotConfig.Auto.FIRST_TURN_SECONDS) &&
+            driveForward(RobotConfig.Auto.DIAGONAL_LEG_SECONDS) &&
+            turnRight(RobotConfig.Auto.SECOND_TURN_SECONDS) &&
+            driveForward(RobotConfig.Auto.FINAL_LEG_SECONDS)
   }
 }
