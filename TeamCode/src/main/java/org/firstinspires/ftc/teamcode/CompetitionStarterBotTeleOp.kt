@@ -98,10 +98,10 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
     }
 
     if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.Launcher.MIN_VELOCITY) {
-      windmillServo.power = 1.0
-      intake.power += 0.5
+      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_SPIN
+      intake.power += RobotConfig.Launcher.INTAKE_BUMP
     } else {
-      windmillServo.power = 0.0
+      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_FEED
     }
   }
 }

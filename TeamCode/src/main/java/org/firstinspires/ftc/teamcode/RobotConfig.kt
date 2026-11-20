@@ -20,6 +20,9 @@ object RobotConfig {
 
     // Launcher velocities in encoder ticks per second (28 ticks per rev)
     const val TARGET_VELOCITY: Double = 1250.0
+    const val WINDMILL_POWER_FEED: Double = 0.0
+    const val WINDMILL_POWER_SPIN: Double = 1.0
+    const val INTAKE_BUMP: Double = 0.5
 
     // TODO: Tune on robot
     const val MIN_VELOCITY_FRACTION: Double = 0.85
