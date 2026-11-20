@@ -183,7 +183,7 @@ abstract class StarterBotBase : LinearOpMode() {
     driveForward(RobotConfig.Auto.FIRST_LEG_SECONDS) &&
             turnLeft(RobotConfig.Auto.FIRST_TURN_SECONDS) &&
             driveForward(RobotConfig.Auto.DIAGONAL_LEG_SECONDS) &&
-            turnRight(RobotConfig.Auto.SECOND_TURN_SECONDS) &&
+            turnLeft(RobotConfig.Auto.SECOND_TURN_SECONDS) &&
             driveForward(RobotConfig.Auto.FINAL_LEG_SECONDS)
   }
 }

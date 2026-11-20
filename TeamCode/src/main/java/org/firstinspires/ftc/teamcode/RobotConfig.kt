@@ -68,6 +68,6 @@ object RobotConfig {
     const val FIRST_TURN_SECONDS: Double = 0.5
     const val DIAGONAL_LEG_SECONDS: Double = 1.4
     const val SECOND_TURN_SECONDS: Double = 0.5
-    const val FINAL_LEG_SECONDS: Double = 2.5
+    const val FINAL_LEG_SECONDS: Double = 0.9
   }
 }
