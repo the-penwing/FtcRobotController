@@ -20,13 +20,14 @@ object RobotConfig {
 
     // Launcher velocities in encoder ticks per second (28 ticks per rev)
     const val TARGET_VELOCITY: Double = 1250.0
-    const val WINDMILL_POWER_FEED: Double = 0.0
-    const val WINDMILL_POWER_SPIN: Double = 1.0
-    const val INTAKE_BUMP: Double = 0.5
-
+    const val SLOW_TARGET_VELOCITY: Double = 650.0
     // TODO: Tune on robot
     const val MIN_VELOCITY_FRACTION: Double = 0.85
-    const val MIN_VELOCITY: Double = TARGET_VELOCITY * MIN_VELOCITY_FRACTION
+    // Windmill & Intake Levels
+    const val WINDMILL_POWER_IDLE: Double = 0.0
+    const val WINDMILL_POWER_FEED: Double = 1.0
+    const val INTAKE_BUMP: Double = 0.5
+
   }
 
   object Drive {
@@ -49,9 +50,11 @@ object RobotConfig {
     const val INTAKE: String = "intake"
     const val LEFT_SERVO: String = "left_intake_servo"
     const val RIGHT_SERVO: String = "right_intake_servo"
-    val LEFT_SERVO_DIRECTION: DcMotorSimple.Direction =
-      DcMotorSimple.Direction.FORWARD
-    val RIGHT_SERVO_DIRECTION: DcMotorSimple.Direction =
-      DcMotorSimple.Direction.REVERSE
+  }
+
+  object Wedge {
+    const val WEDGE: String = "wedge"
+    const val WEDGE_UP: Double = 1.0
+    const val WEDGE_DOWN: Double = 0.7
   }
 }

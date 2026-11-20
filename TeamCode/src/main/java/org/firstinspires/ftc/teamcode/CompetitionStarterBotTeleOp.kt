@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
+import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.abs
 
 @TeleOp(
@@ -19,6 +20,11 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
 
   // Intake Devices
   lateinit var intake: DcMotor
+
+  // Wedge
+  lateinit var wedge: Servo
+  var wedgeUp: Boolean = true
+  var wasWedgePressed: Boolean = false
 
   // Launcher Devices
   lateinit var launcher: DcMotorEx
@@ -42,7 +48,9 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
         -deadzone(gamepad1.left_stick_y.toDouble()),
         deadzone(gamepad1.right_stick_x.toDouble())
       )
+      updateWedge()
       updateIntake()
+      telemetry.addData("Wedge Up", wedgeUp)
       updateLauncher()
       telemetry.update()
     }
@@ -59,7 +67,8 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
     // Intake Setup
     intake = hardwareMap.device(RobotConfig.Intake.INTAKE)
     intake.zeroPowerBehavior = DcMotor.ZeroPowerBehavior.BRAKE
-
+    wedge = hardwareMap.device(RobotConfig.Wedge.WEDGE)
+    wedge.position = RobotConfig.Wedge.WEDGE_UP
     // Launcher Setup
     launcher = hardwareMap.device(RobotConfig.Launcher.LAUNCHER)
     windmillServo = hardwareMap.device(RobotConfig.Launcher.WINDMILL_SERVO)
@@ -90,18 +99,34 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
     intake.power = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
   }
 
-  fun updateLauncher() {
-    if (gamepad1.right_bumper) {
-      launcher.velocity = RobotConfig.Launcher.TARGET_VELOCITY
+  fun updateWedge() {
+    val pressed = gamepad1.left_bumper
+    if (pressed && !wasWedgePressed) wedgeUp = !wedgeUp
+    wasWedgePressed = pressed
+    if (wedgeUp) {
+      wedge.position = RobotConfig.Wedge.WEDGE_UP
     } else {
-      launcher.velocity = 0.0
+      wedge.position = RobotConfig.Wedge.WEDGE_DOWN
     }
+  }
 
-    if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.Launcher.MIN_VELOCITY) {
-      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_SPIN
+  fun updateLauncher() {
+    val target = if (gamepad1.right_bumper) {
+      RobotConfig.Launcher.TARGET_VELOCITY
+    } else if (gamepad1.a) {
+      RobotConfig.Launcher.SLOW_TARGET_VELOCITY
+    } else {
+      0.0
+    }
+    launcher.velocity = target
+    telemetry.addData("Launcher Target", target)
+
+    if (target > 0.0 && abs(launcher.velocity) > target * RobotConfig.Launcher.MIN_VELOCITY_FRACTION) {
+      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_FEED
+      // only works if updateIntake() runs first
       intake.power += RobotConfig.Launcher.INTAKE_BUMP
     } else {
-      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_FEED
+      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_IDLE
     }
   }
 }
