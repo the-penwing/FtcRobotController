@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
-import com.qualcomm.robotcore.hardware.Gamepad
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
+import kotlin.math.abs
 
 @TeleOp(
   name = "Competition Starter Bot TeleOp",
@@ -43,6 +43,7 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
         deadzone(gamepad1.right_stick_x.toDouble())
       )
       updateIntake()
+      updateLauncher()
       telemetry.update()
     }
   }
@@ -87,5 +88,20 @@ class CompetitionStarterBotTeleOp : LinearOpMode() {
   fun updateIntake() {
     // Right trigger in | Left trigger out
     intake.power = (gamepad1.right_trigger - gamepad1.left_trigger).toDouble()
+  }
+
+  fun updateLauncher() {
+    if (gamepad1.right_bumper) {
+      launcher.velocity = RobotConfig.Launcher.TARGET_VELOCITY
+    } else {
+      launcher.velocity = 0.0
+    }
+
+    if (gamepad1.right_bumper && abs(launcher.velocity) > RobotConfig.Launcher.MIN_VELOCITY) {
+      windmillServo.power = 1.0
+      intake.power += 0.5
+    } else {
+      windmillServo.power = 0.0
+    }
   }
 }
