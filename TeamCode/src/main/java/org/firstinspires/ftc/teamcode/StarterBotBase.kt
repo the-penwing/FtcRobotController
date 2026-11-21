@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.abs
 import com.qualcomm.robotcore.util.ElapsedTime
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 
 abstract class StarterBotBase : LinearOpMode() {
   // Drive Devices
@@ -24,6 +25,7 @@ abstract class StarterBotBase : LinearOpMode() {
   // Launcher Devices
   lateinit var launcher: DcMotorEx
   lateinit var windmillServo: CRServo
+  var wasReversePressed: Boolean = false
 
   override fun runOpMode() {
     initHardware()
@@ -115,6 +117,7 @@ abstract class StarterBotBase : LinearOpMode() {
   fun updateLauncher(
     fastShot: Boolean,
     slowShot: Boolean
+
   ): Boolean {
     val target = if (fastShot) {
       RobotConfig.Launcher.TARGET_VELOCITY
@@ -138,6 +141,13 @@ abstract class StarterBotBase : LinearOpMode() {
         false
       }
     return feeding
+  }
+
+  fun reverseLauncher(pressed: Boolean) {
+    if (pressed) {
+      launcher.velocity = RobotConfig.Launcher.REVERSE_VELOCITY
+      windmillServo.power = RobotConfig.Launcher.WINDMILL_POWER_IDLE
+    }
   }
 
   private fun runFor(

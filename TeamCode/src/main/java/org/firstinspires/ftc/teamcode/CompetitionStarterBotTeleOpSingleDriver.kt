@@ -9,11 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 class CompetitionStarterBotTeleOpSingleDriver : StarterBotBase() {
   var wasWedgePressed: Boolean = false
   override fun handleControls() {
-    if (gamepad1.y) {
-      runMacro()
-      return
-    }
-
     arcadeDrive(
       -deadzone(gamepad1.left_stick_y.toDouble()),
       deadzone(gamepad1.right_stick_x.toDouble())
@@ -30,6 +25,9 @@ class CompetitionStarterBotTeleOpSingleDriver : StarterBotBase() {
     val feeding: Boolean = updateLauncher(
       gamepad1.right_bumper,
       gamepad1.a
+    )
+    reverseLauncher(
+      gamepad1.x
     )
     updateIntake(
       (gamepad1.right_trigger - gamepad1.left_trigger).toDouble(),
