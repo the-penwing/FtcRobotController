@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.Servo
 import com.qualcomm.robotcore.util.ElapsedTime
-import kotlin.math.abs
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 
 abstract class StarterBotBase : LinearOpMode() {
   // Drive Devices
@@ -24,6 +24,7 @@ abstract class StarterBotBase : LinearOpMode() {
   // Launcher Devices
   lateinit var launcher: DcMotorEx
   lateinit var windmillServo: CRServo
+  var wasReversePressed: Boolean = false
 
   override fun runOpMode() {
     initHardware()

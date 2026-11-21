@@ -65,10 +65,10 @@ object RobotConfig {
     const val STOP_POWER: Double = 0.0
     const val SETTLE_MS: Long = 150
 
-    const val FIRST_LEG_SECONDS: Double = 1.0
-    const val FIRST_TURN_SECONDS: Double = 1.72
-    const val DIAGONAL_LEG_SECONDS: Double = 1.7
-    const val SECOND_TURN_SECONDS: Double = 1.72
-    const val FINAL_LEG_SECONDS: Double = 0.9
+    const val FIRST_LEG_SECONDS: Double = 0.3
+    const val FIRST_TURN_SECONDS: Double = 2.75
+    const val DIAGONAL_LEG_SECONDS: Double = 1.3
+    const val SECOND_TURN_SECONDS: Double = 2.75
+    const val FINAL_LEG_SECONDS: Double = 0.25
   }
 }
