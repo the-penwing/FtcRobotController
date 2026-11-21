@@ -85,12 +85,12 @@ object RobotConfig {
     const val WIGGLE_PERIOD_S: Double = 0.4
 
     // Measure with MeasureRoute. 0 ticks = skip step.
-    const val APPROACH_TICKS: Int = 0
+    const val APPROACH_TICKS: Int = -400
     const val AIM_HEADING_DEG: Double = 0.0
-    const val PARK1_HEADING_DEG: Double = 0.0
-    const val PARK1_TICKS: Int = 0
-    const val PARK2_HEADING_DEG: Double = 0.0
-    const val PARK2_TICKS: Int = 0
+    const val PARK1_HEADING_DEG: Double = 33.0
+    const val PARK1_TICKS: Int = -3500
+    const val PARK2_HEADING_DEG: Double = -35.0
+    const val PARK2_TICKS: Int = -530
 
     const val DRIVE_POWER: Double = 0.5
     const val TURN_POWER: Double = 0.2
