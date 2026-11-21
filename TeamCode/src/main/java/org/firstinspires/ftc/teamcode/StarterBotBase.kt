@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorEx
 import com.qualcomm.robotcore.hardware.PIDFCoefficients
 import com.qualcomm.robotcore.hardware.Servo
-import kotlin.math.abs
 import com.qualcomm.robotcore.util.ElapsedTime
-import com.qualcomm.robotcore.hardware.DcMotorSimple
+import kotlin.math.abs
 
 abstract class StarterBotBase : LinearOpMode() {
   // Drive Devices
@@ -25,7 +24,6 @@ abstract class StarterBotBase : LinearOpMode() {
   // Launcher Devices
   lateinit var launcher: DcMotorEx
   lateinit var windmillServo: CRServo
-  var wasReversePressed: Boolean = false
 
   override fun runOpMode() {
     initHardware()
@@ -117,7 +115,6 @@ abstract class StarterBotBase : LinearOpMode() {
   fun updateLauncher(
     fastShot: Boolean,
     slowShot: Boolean
-
   ): Boolean {
     val target = if (fastShot) {
       RobotConfig.Launcher.TARGET_VELOCITY
@@ -155,7 +152,7 @@ abstract class StarterBotBase : LinearOpMode() {
     rightPower: Double,
     seconds: Double
   ): Boolean {
-    val timer: ElapsedTime = ElapsedTime()
+    val timer = ElapsedTime()
     leftDrive.power = leftPower
     rightDrive.power = rightPower
     while (opModeIsActive() && !gamepad1.b && timer.seconds() < seconds) {
@@ -191,9 +188,9 @@ abstract class StarterBotBase : LinearOpMode() {
 
   fun runMacro() {
     driveForward(RobotConfig.Auto.FIRST_LEG_SECONDS) &&
-            turnLeft(RobotConfig.Auto.FIRST_TURN_SECONDS) &&
-            driveForward(RobotConfig.Auto.DIAGONAL_LEG_SECONDS) &&
-            turnLeft(RobotConfig.Auto.SECOND_TURN_SECONDS) &&
-            driveForward(RobotConfig.Auto.FINAL_LEG_SECONDS)
+      turnLeft(RobotConfig.Auto.FIRST_TURN_SECONDS) &&
+      driveForward(RobotConfig.Auto.DIAGONAL_LEG_SECONDS) &&
+      turnLeft(RobotConfig.Auto.SECOND_TURN_SECONDS) &&
+      driveForward(RobotConfig.Auto.FINAL_LEG_SECONDS)
   }
 }
