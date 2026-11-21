@@ -44,7 +44,7 @@ abstract class StarterBotAuto(private val side: Double) : StarterBotBase() {
     )
     // 2. Aim at the upward-facing CELL and shoot the 4 preloaded POLLEN
     turnTo(side * RobotConfig.Auto.AIM_HEADING_DEG)
-    shoot(RobotConfig.Auto.SHOOT_SECONDS)
+    shoot()
     // 3. Park (up to two legs, a leg with 0 ticks is skipped)
     leg(
       side * RobotConfig.Auto.PARK1_HEADING_DEG,
@@ -177,15 +177,16 @@ abstract class StarterBotAuto(private val side: Double) : StarterBotBase() {
   // Spin the launcher up and feed. Uses the same "wait until fast enough"
   // gate as teleop, with a fallback so a slightly low battery can't stop
   // the first ball from ever being fed.
-  private fun shoot(seconds: Double) {
+  private fun shoot() {
+    val seconds: Double = RobotConfig.Auto.SHOOT_SECONDS
     val timer = ElapsedTime()
     val wiggleTimer = ElapsedTime()
     var wiggling = false
     var everReady = false
     while (opModeIsActive() && timer.seconds() < seconds) {
       var feeding = updateLauncher(
-        true,
-        false
+          fastShot = true,
+          slowShot = false
       )
       if (feeding) everReady = true
       if (!everReady && timer.seconds() > RobotConfig.Auto.SPINUP_FALLBACK_S) {
@@ -201,9 +202,7 @@ abstract class StarterBotAuto(private val side: Double) : StarterBotBase() {
       // Equal time each way, so the robot ends up roughly where it started.
       // Nudge forward and back while feeding.
       if (
-        feeding &&
-        RobotConfig.Auto.WIGGLE_POWER > 0.0 &&
-        RobotConfig.Auto.WIGGLE_PERIOD_S > 0.0
+          feeding
       ) {
         if (!wiggling) {
           wiggling = true
