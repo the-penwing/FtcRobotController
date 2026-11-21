@@ -27,7 +27,5 @@ class CompetitionStarterBotTeleOpTwoDrivers : StarterBotBase() {
       (gamepad2.right_trigger - gamepad2.left_trigger).toDouble(),
       feeding
     )
-
-
   }
 }

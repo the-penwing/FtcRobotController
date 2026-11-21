@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
-
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 
 object RobotConfig {
@@ -82,8 +81,10 @@ object RobotConfig {
     const val DRIVE_TIMEOUT_S: Double = 4.0
     const val SPINUP_FALLBACK_S: Double = 3.0
     const val SHOOT_SECONDS: Double = 8.0
+    const val WIGGLE_POWER: Double = 0.2
+    const val WIGGLE_PERIOD_S: Double = 0.4
 
-    // Measure these with MeasureRoute. 0 ticks = skip that step.
+    // Measure with MeasureRoute. 0 ticks = skip step.
     const val APPROACH_TICKS: Int = 0
     const val AIM_HEADING_DEG: Double = 0.0
     const val PARK1_HEADING_DEG: Double = 0.0

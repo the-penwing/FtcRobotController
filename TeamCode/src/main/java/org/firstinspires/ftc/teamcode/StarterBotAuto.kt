@@ -179,6 +179,8 @@ abstract class StarterBotAuto(private val side: Double) : StarterBotBase() {
   // the first ball from ever being fed.
   private fun shoot(seconds: Double) {
     val timer = ElapsedTime()
+    val wiggleTimer = ElapsedTime()
+    var wiggling = false
     var everReady = false
     while (opModeIsActive() && timer.seconds() < seconds) {
       var feeding = updateLauncher(
@@ -195,6 +197,34 @@ abstract class StarterBotAuto(private val side: Double) : StarterBotBase() {
         0.0,
         feeding
       )
+      // Nudge forward and back while feeding so balls reach the launcher.
+      // Equal time each way, so the robot ends up roughly where it started.
+      // Nudge forward and back while feeding.
+      if (
+        feeding &&
+        RobotConfig.Auto.WIGGLE_POWER > 0.0 &&
+        RobotConfig.Auto.WIGGLE_PERIOD_S > 0.0
+      ) {
+        if (!wiggling) {
+          wiggling = true
+          wiggleTimer.reset()
+        }
+
+        val phase =
+          (wiggleTimer.seconds() % RobotConfig.Auto.WIGGLE_PERIOD_S) /
+                  RobotConfig.Auto.WIGGLE_PERIOD_S
+
+        val power = if (phase < 0.5) {
+          RobotConfig.Auto.WIGGLE_POWER
+        } else {
+          -RobotConfig.Auto.WIGGLE_POWER
+        }
+
+        arcadeDrive(power, 0.0)
+      } else {
+        wiggling = false
+        stopDrive()
+      }
       telemetry.addData(
         "Launcher Velocity",
         launcher.velocity

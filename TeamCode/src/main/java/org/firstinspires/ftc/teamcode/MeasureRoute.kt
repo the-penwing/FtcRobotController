@@ -61,13 +61,11 @@ class MeasureRoute : LinearOpMode() {
       val average = (abs(left.currentPosition) + abs(right.currentPosition)) / 2
       telemetry.addData(
         "Yaw raw (left turn should go UP)",
-        "%.1f",
-        rawYaw
+        String.format("%.1f", rawYaw)
       )
       telemetry.addData(
         "Heading to use in config",
-        "%.1f",
-        RobotConfig.Auto.YAW_SIGN * rawYaw
+        String.format("%.1f", RobotConfig.Auto.YAW_SIGN * rawYaw)
       )
       telemetry.addData(
         "Left ticks",

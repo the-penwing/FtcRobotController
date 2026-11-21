@@ -24,7 +24,6 @@ abstract class StarterBotBase : LinearOpMode() {
   // Launcher Devices
   lateinit var launcher: DcMotorEx
   lateinit var windmillServo: CRServo
-  var wasReversePressed: Boolean = false
 
   override fun runOpMode() {
     initHardware()
