@@ -87,10 +87,10 @@ object RobotConfig {
     // Measure with MeasureRoute. 0 ticks = skip step.
     const val APPROACH_TICKS: Int = -400
     const val AIM_HEADING_DEG: Double = 0.0
-    const val PARK1_HEADING_DEG: Double = 33.0
+    const val PARK1_HEADING_DEG: Double = -33.0
     const val PARK1_TICKS: Int = -3500
-    const val PARK2_HEADING_DEG: Double = -35.0
-    const val PARK2_TICKS: Int = -530
+    const val PARK2_HEADING_DEG: Double = 12.5
+    const val PARK2_TICKS: Int = -600
 
     const val DRIVE_POWER: Double = 0.5
     const val TURN_POWER: Double = 0.2
@@ -99,8 +99,8 @@ object RobotConfig {
 
     const val FIRST_LEG_SECONDS: Double = 0.3
     const val FIRST_TURN_SECONDS: Double = 2.75
-    const val DIAGONAL_LEG_SECONDS: Double = 1.3
+    const val DIAGONAL_LEG_SECONDS: Double = 1.0
     const val SECOND_TURN_SECONDS: Double = 2.75
-    const val FINAL_LEG_SECONDS: Double = 0.5
+    const val FINAL_LEG_SECONDS: Double = 0.3
   }
 }
